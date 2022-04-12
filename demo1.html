@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/riot/3.13.2/riot+compiler.min.js"></script>
+    
+    <!-- <script src="/static/js/moment.min.js"></script>
+    <script src="/static/js/axios.min.js"></script>
+    <script src="/static/js/riot.min.js"></script>
+    <script src="/static/js/riot+compiler.min.js"></script>
+    <script src="/static/js/lightpick.min.js"></script> -->
+</head>
+<body>
+<h3>
+    Hello MediB
+</h3>    
+
+<messageTag></messageTag>
+<script>
+   var tagHtml = "<h1>Hello World!</h1>";
+   riot.tag("messageTag", tagHtml);
+   riot.mount("messageTag");
+</script>
+
+
+<div class="main_container">
+    <div is="main-component" data-riot-component></div>
+</div>
+
+
+</body>
+
+
+
+
+</html>
