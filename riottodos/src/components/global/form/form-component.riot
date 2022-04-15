@@ -1,0 +1,39 @@
+<form-component>
+<hr>
+<h1>Hello from form-component</h1>
+
+<div style="width: 500px">
+<form onsubmit={handleSubmit}>
+Name: <input type="text" name="name" value="{props.product.name}">
+Price: <input type="number" name="price" value="{props.product.price}">
+Quantity: <input type="number" name="quantity" value="{props.product.quantity}">
+<input type="submit" value="Submit">
+</form>
+</div>
+
+<script>
+export default {
+    handleSubmit(event) {
+        event.preventDefault()
+        const name = this.$("input[name='name']").value
+        const price = this.$("input[name='price']").value
+        const quantity = this.$("input[name='quantity']").value
+        const formResult = {'name': name, 'price': price, 'quantity': quantity}
+        console.log('---form-component---formResult:', formResult)
+
+        if (this.props.action === 'create') {
+            console.log('---create---')
+            this.props.handleCreate(formResult)
+        }
+
+        if (this.props.action === 'update') {
+            console.log('---form-component---update---this.props:', this.props)
+            formResult.id = this.props.product.id
+            this.props.handleUpdate(formResult)
+        }
+
+    }
+}
+</script>
+
+</form-component>

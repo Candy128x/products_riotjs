@@ -1,0 +1,23 @@
+<display-component>
+
+<hr>
+<h1>Hello from display-component</h1>
+
+<ul>
+<li each={product in props.products}>
+<span> 
+ID: {product.id} | Name: {product.name} | Price: {product.price} | Qty: {product.quantity || 'NA'} | Type: {product.price > 500 ? 'VIP-Products' : 'Ordinary'}</span>&nbsp;
+<button onclick={() => props.selectToUpdate(product)}>Edit</button>&nbsp;
+<button onclick={() => props.handleDelete(product.id)}>Del</button>
+</li>
+</ul>
+
+<script>
+export default {
+    onBeforeMount(props, state){
+        console.log('---display-component---:', props.product)
+    }
+}
+</script>
+
+</display-component>

@@ -1,0 +1,122 @@
+<app-component>
+
+<hr>
+<h1>Hello from app-component</h1>
+
+<button onclick={cheese}>btn-1</button><br>
+
+<button onclick={toggleForm}>Create</button>
+
+<display-component 
+products={this.state.products}
+handleDelete={handleDelete}
+selectToUpdate={selectProductToUpdate}>
+</display-component>
+
+<form-component 
+if={state.showForm} 
+product={state.product} 
+action={state.action}
+_id={state._id}
+handleCreate={handleCreate}
+handleUpdate={handleUpdate}>
+</form-component>
+
+
+<script>
+
+export default {
+    state:{
+        url: 'http://127.0.0.1:8000',
+        products: [],
+        
+        product: {
+            name: '',
+            price: '',
+            quantity: ''
+        },
+
+        action: 'create',
+        _id: '',
+        showForm: false
+    },
+
+    cheese: function() {
+        console.log('---Hello-from-cheese-fun---')
+    },
+
+    async onBeforeMount() {
+        this.getProducts()
+    },
+
+    async getProducts() {
+        await new Promise(r => setTimeout(r, 1000));
+
+        const response = await fetch(this.state.url + '/products/apiv2-es-list/')
+        const data = await response.json()
+        console.log('---app-component---data:', data)
+        this.state.products = data.results
+
+        this.state.product = {
+            name: '',
+            price: '',
+            quantity: ''
+        }
+
+        this.state.action = 'create'
+        this.state._id = ''
+        this.state.showForm = false
+
+        this.update()
+    },
+
+    toggleForm() {
+        this.state.showForm = !this.state.showForm
+        this.update()
+    },
+
+    async handleCreate(product) {
+        const response = fetch(this.state.url + '/products/apiv2-list/', {
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(product)
+        })
+
+        this.getProducts()
+    },
+
+
+    async handleUpdate(product) {
+        console.log('---app-component---handleUpdate---product:', product)
+        const response = fetch(this.state.url + '/products/apiv2-details/' + `${product.id}` + '/', {
+            method: 'put',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(product)
+        })
+
+        this.getProducts()
+    },
+
+    async handleDelete(product_id) {
+        console.log('---app-component---handleDelete:', product_id)
+        const response = fetch(this.state.url + '/products/apiv2-details/' + `${product_id}` + '/', {
+            method: 'delete'
+        })
+
+        this.getProducts()
+    },
+
+    selectProductToUpdate(product) { 
+        this.state.product = product
+        this.state.action = 'update'
+        this.state.showForm = true
+        this.update()
+    }
+
+
+}
+
+</script>
+
+
+</app-component>
